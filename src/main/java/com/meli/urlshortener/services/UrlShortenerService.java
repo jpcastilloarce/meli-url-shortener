@@ -52,6 +52,7 @@ public class UrlShortenerService {
         if (urlMapping != null) {
             urlMapping.setAccessCount(urlMapping.getAccessCount() + 1);
             urlMapping.setLastAccessTime(Instant.now().getEpochSecond());
+            urlMappingRepository.save(urlMapping);
             redisTemplate.opsForValue().set(URL_CACHE_PREFIX + shortUrl, urlMapping, 1, TimeUnit.DAYS);
             return Optional.of(urlMapping);
         }
